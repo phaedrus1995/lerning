@@ -17,4 +17,8 @@ public class HalloWorldRepository {
                 String[] nachStream = Arrays.stream(test).map(str -> str.concat("lala")).toArray(String[]::new);
                 System.out.println(nachStream[1]);
     }
+
+    Boolean query() {
+        return true;
+    }
 }

@@ -5,8 +5,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -14,7 +12,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class HalloWorldServiceTest {
 
-    @Autowired
+    @Mock
     private HalloWorldRepository halloWorldRepository;
 
     @InjectMocks
@@ -27,5 +25,14 @@ public class HalloWorldServiceTest {
         String result = halloWorldService.sayHallo("Benjamin");
 
         assertEquals("Hallo Benjamin!", result);
+    }
+
+    @Test
+    void should_query_slots() {
+        when(halloWorldRepository.query()).thenReturn(true);
+
+        Boolean result = halloWorldService.query();
+
+        assertEquals(true, result);
     }
 }

@@ -13,6 +13,6 @@ public class HalloWorldService {
     }
 
     public Boolean query() {
-        return true;
+        return halloWorldRepository.query();
     }
 }
