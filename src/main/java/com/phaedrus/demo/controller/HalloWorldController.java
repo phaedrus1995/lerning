@@ -20,10 +20,10 @@ public class HalloWorldController {
 
     @GetMapping("query")
     public QueryResponse query() {
-        Integer status = halloWorldService.query();
+        Integer numberOfEmptyLockers = halloWorldService.query();
         QueryResponse queryResponse = new QueryResponse();
-        queryResponse.setNumberOfFreeLocker(status);
-        String message = status > 0 ? "it is free" : "sorry, no free slot";
+        queryResponse.setNumberOfFreeLocker(numberOfEmptyLockers);
+        String message = numberOfEmptyLockers > 0 ? "it is free" : "sorry, no free slot";
         queryResponse.setMessage(message);
         return queryResponse;
     }
