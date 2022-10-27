@@ -11,4 +11,8 @@ public class HalloWorldService {
     public String sayHallo(String name) {
         return halloWorldRepository.sayHallo(name);
     }
+
+    public Boolean query() {
+        return true;
+    }
 }

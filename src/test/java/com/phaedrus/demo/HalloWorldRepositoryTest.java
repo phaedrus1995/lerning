@@ -4,9 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 class HalloWorldRepositoryTest {
@@ -17,6 +16,11 @@ class HalloWorldRepositoryTest {
     void should_return_greet() {
         String result = halloWorldRepository.sayHallo("Anja");
         assertEquals("Hallo Anja!", result);
+    }
+
+    @Test
+    void shoud_test() {
+        halloWorldRepository.test();
     }
 
 }

@@ -15,4 +15,14 @@ public class HalloWorldController {
     public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
         return halloWorldService.sayHallo(name);
     }
+
+    @GetMapping("query")
+    public QueryResponse query() {
+        Boolean status = halloWorldService.query();
+        QueryResponse queryResponse = new QueryResponse();
+        queryResponse.setStatus(status);
+        String message = status ? "it is free" : "sorry, no free slot";
+        queryResponse.setMessage(message);
+        return queryResponse;
+    }
 }
