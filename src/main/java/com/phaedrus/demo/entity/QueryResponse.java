@@ -1,12 +1,11 @@
-package com.phaedrus.demo;
+package com.phaedrus.demo.entity;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
 public class QueryResponse {
-    public Boolean status;
+    public Integer numberOfFreeLocker;
     public String message;
 }

@@ -1,5 +1,6 @@
-package com.phaedrus.demo;
+package com.phaedrus.demo.controller;
 
+import com.phaedrus.demo.service.HalloWorldService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -42,7 +43,7 @@ public class HalloWorldControllerTests {
 
     @Test
     void should_get_free_when_slots_are_free() throws Exception {
-        when(halloWorldService.query()).thenReturn(true);
+        when(halloWorldService.query()).thenReturn(3);
         mockMvc.perform(get("/query")).andExpect(status().isOk())
                 .andExpect(jsonPath("status").value(true))
                 .andExpect(jsonPath("message").value("it is free"));
@@ -50,7 +51,7 @@ public class HalloWorldControllerTests {
 
     @Test
     void should_get_not_free_when_slots_are_occupied() throws Exception {
-        when(halloWorldService.query()).thenReturn(false);
+        when(halloWorldService.query()).thenReturn(0);
         mockMvc.perform(get("/query")).andExpect(status().isOk())
                 .andExpect(jsonPath("status").value(false))
                 .andExpect(jsonPath("message").value("sorry, no free slot"));
