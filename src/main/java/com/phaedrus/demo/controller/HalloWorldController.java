@@ -4,10 +4,7 @@ import com.phaedrus.demo.entity.StoreResponse;
 import com.phaedrus.demo.service.HalloWorldService;
 import com.phaedrus.demo.entity.QueryResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +17,7 @@ public class HalloWorldController {
         return halloWorldService.sayHallo(name);
     }
 
-    @GetMapping("query")
+    @GetMapping("/query")
     public QueryResponse query() {
         Integer numberOfEmptyLockers = halloWorldService.query();
         QueryResponse queryResponse = new QueryResponse();
@@ -30,8 +27,13 @@ public class HalloWorldController {
         return queryResponse;
     }
 
-    @PostMapping("store")
+    @PostMapping("/store")
     public StoreResponse store() {
         return halloWorldService.store();
+    }
+
+    @PostMapping("/locker/{customerNumber}")
+    public StoreResponse getLockerByCustomerNumber(@PathVariable String customerNumber) {
+        return halloWorldService.release(customerNumber);
     }
 }

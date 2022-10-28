@@ -65,4 +65,11 @@ public class HalloWorldControllerTests {
         mockMvc.perform(post("/store")).andExpect(status().isOk())
                 .andExpect(jsonPath("customerNumber").value(12345678));
     }
+
+    @Test
+    void should_return_succeeded_response_when_release_succeeded() throws Exception{
+        when(halloWorldService.release(any())).thenReturn(new StoreResponse(true, "succeedful get your package"));
+        mockMvc.perform(post("/locker/234567")).andExpect(status().isOk())
+                .andExpect(jsonPath("message").value(234567));
+    }
 }

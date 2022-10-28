@@ -38,4 +38,8 @@ public class HalloWorldService {
             return new StoreResponse(false, "Inner Error Occur");
         }
     }
+
+    public StoreResponse release(String customerNumber) {
+        return new StoreResponse(true, "succeedful get your package");
+    }
 }
