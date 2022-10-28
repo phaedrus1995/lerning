@@ -25,6 +25,7 @@ public class HalloWorldService {
 
     public StoreResponse store() {
         int customerNumber = new Random().nextInt(90000) + 10000;
+        try {
         List<Locker> freeLocker = halloWorldRepository.findAllByStatus(false);
         if(freeLocker.size() == 0) {
             return new StoreResponse(false, "no free locker");
@@ -33,5 +34,8 @@ public class HalloWorldService {
         Locker newLockerStatus = new Locker(targetId, true, Integer.toString(customerNumber));
         Locker savedLocker = halloWorldRepository.save(newLockerStatus);
         return new StoreResponse(true, savedLocker.customerNumber);
+        } catch (Exception error) {
+            return new StoreResponse(false, "Inner Error Occur");
+        }
     }
 }

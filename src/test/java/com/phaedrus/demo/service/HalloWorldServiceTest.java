@@ -81,4 +81,12 @@ public class HalloWorldServiceTest {
         verify(halloWorldRepository, never()).save(any());
         assertThat("no free locker").isEqualTo(savedLocker.message);
     }
+
+    @Test
+    void should_catch_the_exception_from_repo() {
+        when(halloWorldRepository.findAllByStatus(false)).thenThrow(new RuntimeException());
+
+        StoreResponse savedLocker = halloWorldService.store();
+        assertThat(savedLocker.message).isEqualTo("Inner Error Occur");
+    }
 }
