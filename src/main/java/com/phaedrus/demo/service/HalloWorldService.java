@@ -43,7 +43,11 @@ public class HalloWorldService {
     public StoreResponse release(String customerNumber) {
         try{
             Integer targetLockerId = halloWorldRepository.findByCustomerNumber(customerNumber).getId();
-            halloWorldRepository.save(new Locker(targetLockerId, false, null));
+            System.out.println("targetLockerId");
+            System.out.println(targetLockerId);
+            Locker result = halloWorldRepository.save(new Locker(targetLockerId, false, null));
+            System.out.println("result");
+            System.out.println(result);
             return new StoreResponse(true, "successful get your package");
         } catch (Exception error) {
             return new StoreResponse(false, "Sorry, an error occurs during release");
