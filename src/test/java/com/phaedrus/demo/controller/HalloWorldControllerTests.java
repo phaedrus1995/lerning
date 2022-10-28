@@ -1,5 +1,6 @@
 package com.phaedrus.demo.controller;
 
+import com.phaedrus.demo.entity.StoreResponse;
 import com.phaedrus.demo.service.HalloWorldService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -55,5 +57,12 @@ public class HalloWorldControllerTests {
         mockMvc.perform(get("/query")).andExpect(status().isOk())
                 .andExpect(jsonPath("status").value(false))
                 .andExpect(jsonPath("message").value("sorry, no free slot"));
+    }
+
+    @Test
+    void should_return_customer_number_when_store_succeeded() throws Exception{
+        when(halloWorldService.store()).thenReturn(new StoreResponse(true, "12345678"));
+        mockMvc.perform(post("/store")).andExpect(status().isOk())
+                .andExpect(jsonPath("customerNumber").value(12345678));
     }
 }

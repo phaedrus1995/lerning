@@ -1,9 +1,12 @@
 package com.phaedrus.demo.service;
 
 import com.phaedrus.demo.entity.Locker;
+import com.phaedrus.demo.entity.StoreResponse;
 import com.phaedrus.demo.repository.HalloWorldRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -11,15 +14,19 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class HalloWorldServiceTest {
 
     @Mock
     private HalloWorldRepository halloWorldRepository;
+
+    @Captor
+    private ArgumentCaptor<Locker> lockerArgumentCaptor;
 
     @InjectMocks
     HalloWorldService halloWorldService;
@@ -42,5 +49,36 @@ public class HalloWorldServiceTest {
         Integer result = halloWorldService.query();
 
         assertEquals(3, result);
+    }
+
+    @Test
+    void should_store_the_locker() {
+
+//        Random randomNumberMock = Mockito.mock(Random.class, withSettings().withoutAnnotations());
+//        when(randomNumberMock.nextInt()).thenReturn(12345);
+
+        Locker firstMockLocker = new Locker(4, false, "some id");
+        Locker secondMockLocker = new Locker(5, false, "some id");
+        List<Locker> mockLockerList = new ArrayList<>();
+        mockLockerList.add(firstMockLocker);
+        mockLockerList.add(secondMockLocker);
+        when(halloWorldRepository.findAllByStatus(false)).thenReturn(mockLockerList);
+        Locker expectLocker = new Locker(4, true, "12345");
+        when(halloWorldRepository.save(lockerArgumentCaptor.capture())).thenReturn(expectLocker);
+
+        StoreResponse response = new StoreResponse(true, "12345");
+        StoreResponse savedLocker = halloWorldService.store();
+        assertEquals(response.message.length(), savedLocker.message.length());
+        assertThat(lockerArgumentCaptor.getValue().getCustomerNumber().length()).isEqualTo(5);
+    }
+
+    @Test
+    void should_not_store_if_there_are_no_empty_lockers() {
+        List<Locker> mockLockerList = new ArrayList<>();
+        when(halloWorldRepository.findAllByStatus(false)).thenReturn(mockLockerList);
+
+        StoreResponse savedLocker = halloWorldService.store();
+        verify(halloWorldRepository, never()).save(any());
+        assertThat("no free locker").isEqualTo(savedLocker.message);
     }
 }
