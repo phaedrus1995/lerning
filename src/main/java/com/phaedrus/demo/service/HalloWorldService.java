@@ -40,6 +40,6 @@ public class HalloWorldService {
     }
 
     public StoreResponse release(String customerNumber) {
-        return new StoreResponse(true, "succeedful get your package");
+        return new StoreResponse(true, "successful get your package");
     }
 }

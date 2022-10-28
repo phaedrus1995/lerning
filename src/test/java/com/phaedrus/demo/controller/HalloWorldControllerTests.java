@@ -47,7 +47,7 @@ public class HalloWorldControllerTests {
     void should_get_free_when_slots_are_free() throws Exception {
         when(halloWorldService.query()).thenReturn(3);
         mockMvc.perform(get("/query")).andExpect(status().isOk())
-                .andExpect(jsonPath("status").value(true))
+                .andExpect(jsonPath("numberOfFreeLocker").value(3))
                 .andExpect(jsonPath("message").value("it is free"));
     }
 
@@ -55,7 +55,7 @@ public class HalloWorldControllerTests {
     void should_get_not_free_when_slots_are_occupied() throws Exception {
         when(halloWorldService.query()).thenReturn(0);
         mockMvc.perform(get("/query")).andExpect(status().isOk())
-                .andExpect(jsonPath("status").value(false))
+                .andExpect(jsonPath("numberOfFreeLocker").value(0))
                 .andExpect(jsonPath("message").value("sorry, no free slot"));
     }
 
@@ -63,13 +63,13 @@ public class HalloWorldControllerTests {
     void should_return_customer_number_when_store_succeeded() throws Exception{
         when(halloWorldService.store()).thenReturn(new StoreResponse(true, "12345678"));
         mockMvc.perform(post("/store")).andExpect(status().isOk())
-                .andExpect(jsonPath("customerNumber").value(12345678));
+                .andExpect(jsonPath("message").value(12345678));
     }
 
     @Test
     void should_return_succeeded_response_when_release_succeeded() throws Exception{
-        when(halloWorldService.release(any())).thenReturn(new StoreResponse(true, "succeedful get your package"));
+        when(halloWorldService.release(any())).thenReturn(new StoreResponse(true, "successful get your package"));
         mockMvc.perform(post("/locker/234567")).andExpect(status().isOk())
-                .andExpect(jsonPath("message").value(234567));
+                .andExpect(jsonPath("message").value("successful get your package"));
     }
 }
