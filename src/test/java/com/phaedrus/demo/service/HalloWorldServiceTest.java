@@ -89,4 +89,23 @@ public class HalloWorldServiceTest {
         StoreResponse savedLocker = halloWorldService.store();
         assertThat(savedLocker.message).isEqualTo("Inner Error Occur");
     }
+
+    @Test
+    void should_release_resource() {
+        when(halloWorldRepository.findByCustomerNumber("12345")).thenReturn(new Locker(3, true, "12345"));
+
+        StoreResponse resultResponse = halloWorldService.release("12345");
+        assertThat(new StoreResponse(true, "successful get your package")).isEqualToComparingFieldByField(resultResponse);
+        verify(halloWorldRepository).save(new Locker(3, false, null));
+    }
+
+    @Test
+    void should_return_error_message_when_error_occur_during_release_resource() {
+        when(halloWorldRepository.findByCustomerNumber("12345")).thenThrow(new RuntimeException());
+
+        StoreResponse resultResponse = halloWorldService.release("12345");
+        assertThat(new StoreResponse(false, "Sorry, an error occurs during release")).isEqualToComparingFieldByField(resultResponse);
+        verify(halloWorldRepository, never()).save(any());
+    }
+
 }

@@ -6,6 +6,7 @@ import com.phaedrus.demo.repository.HalloWorldRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.Random;
 
@@ -40,6 +41,14 @@ public class HalloWorldService {
     }
 
     public StoreResponse release(String customerNumber) {
-        return new StoreResponse(true, "successful get your package");
+        try{
+            Integer targetLockerId = halloWorldRepository.findByCustomerNumber(customerNumber).getId();
+            halloWorldRepository.save(new Locker(targetLockerId, false, null));
+            return new StoreResponse(true, "successful get your package");
+        } catch (Exception error) {
+            return new StoreResponse(false, "Sorry, an error occurs during release");
+        }
+
+
     }
 }
