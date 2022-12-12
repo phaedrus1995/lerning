@@ -4,13 +4,10 @@ import com.phaedrus.demo.entity.Locker;
 import com.phaedrus.demo.entity.StoreResponse;
 import com.phaedrus.demo.repository.HalloWorldRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.Random;
 
-@Service
 @RequiredArgsConstructor
 public class HalloWorldService {
     private final HalloWorldRepository halloWorldRepository;

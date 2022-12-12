@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @WebMvcTest(HalloWorldController.class)
 public class HalloWorldControllerTests {
+
     private MockMvc mockMvc;
 
     @MockBean
